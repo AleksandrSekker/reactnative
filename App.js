@@ -26,7 +26,7 @@ const App = () => {
   const [sms, setsms] = useState(0);
 
   onSubmitHandler = () => {
-    var smsCount = 0;
+    let smsCount = 0;
     let currentSms = '';
     let words = text.split(' ');
     for (let i = 0; i < words.length; i++) {
@@ -39,16 +39,15 @@ const App = () => {
       if (currentSms.length > symbols) {
         currentSms = words[i];
         smsCount++;
-        setsms(smsCount);
       }
 
       if (i === words.length - 1) {
         smsCount++;
-        setsms(smsCount);
       } else {
         currentSms += ' ';
       }
     }
+    setsms(smsCount);
   };
   return (
     <Container>
@@ -84,10 +83,7 @@ const App = () => {
             <Text style={{fontSize: 20}}>Потрібно SMS: </Text>
           </Col>
           <Col>
-            <Text style={{fontSize: 20}}>
-              {sms}
-              {text.length}
-            </Text>
+            <Text style={{fontSize: 20}}>{sms}</Text>
           </Col>
         </Grid>
       </Content>
