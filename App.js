@@ -21,16 +21,34 @@ import {
 import {} from 'react-native/Libraries/NewAppScreen';
 
 const App = () => {
-  const [text, settext] = useState([]);
-  const [symbols, setsymbols] = useState(Number);
+  const [text, settext] = useState();
+  const [symbols, setsymbols] = useState();
   const [sms, setsms] = useState(0);
 
   onSubmitHandler = () => {
-    word = text.split(' ');
-    // let result = text.length / symbols;
-    let result = word.length / symbols;
-    setsms(Math.ceil(result));
-    // setsms(result);
+    var smsCount = 0;
+    let currentSms = '';
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+      // skip words longer than max count
+      if (words[i].length > symbols) {
+        continue;
+      }
+
+      currentSms += words[i];
+      if (currentSms.length > symbols) {
+        currentSms = words[i];
+        smsCount++;
+        setsms(smsCount);
+      }
+
+      if (i === words.length - 1) {
+        smsCount++;
+        setsms(smsCount);
+      } else {
+        currentSms += ' ';
+      }
+    }
   };
   return (
     <Container>
@@ -66,7 +84,10 @@ const App = () => {
             <Text style={{fontSize: 20}}>Потрібно SMS: </Text>
           </Col>
           <Col>
-            <Text style={{fontSize: 20}}>{sms}</Text>
+            <Text style={{fontSize: 20}}>
+              {sms}
+              {text.length}
+            </Text>
           </Col>
         </Grid>
       </Content>
